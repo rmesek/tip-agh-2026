@@ -1,0 +1,199 @@
+annotations:
+  - border_color: '#808080FF'
+    border_style: ''
+    color: '#FFFFFFFF'
+    line_end: null
+    line_start: null
+    thickness: 1
+    type: line
+    x1: -240.0
+    y1: -160.0
+    x2: -240.0
+    y2: -160.0
+    z_index: 0
+  - border_color: '#808080FF'
+    border_style: ''
+    color: '#FFFFFFFF'
+    line_end: null
+    line_start: null
+    thickness: 1
+    type: line
+    x1: -240.0
+    y1: -160.0
+    x2: -240.0
+    y2: -160.0
+    z_index: 1
+smart_annotations: []
+nodes:
+  - boot_disk_size: null
+    configuration:
+      - name: ios_config.txt
+        content: hostname NAT64-Router
+    cpu_limit: null
+    cpus: null
+    data_volume: null
+    hide_links: false
+    id: n0
+    image_definition: null
+    label: NAT64-Router
+    node_definition: iosv
+    parameters: {}
+    priority: null
+    pyats:
+      username: null
+      password: null
+      enable_password: null
+    ram: null
+    tags: []
+    x: -40
+    y: -160
+    interfaces:
+      - id: i0
+        label: Loopback0
+        mac_address: null
+        type: loopback
+      - id: i1
+        label: GigabitEthernet0/0
+        mac_address: null
+        type: physical
+        slot: 0
+      - id: i2
+        label: GigabitEthernet0/1
+        mac_address: null
+        type: physical
+        slot: 1
+      - id: i3
+        label: GigabitEthernet0/2
+        mac_address: null
+        type: physical
+        slot: 2
+      - id: i4
+        label: GigabitEthernet0/3
+        mac_address: null
+        type: physical
+        slot: 3
+  - boot_disk_size: null
+    configuration:
+      - name: node.cfg
+        content: |-
+          # this is a shell script which will be sourced at boot
+          hostname PC-A
+          # configurable user account
+          USERNAME=cisco
+          PASSWORD=cisco
+    cpu_limit: null
+    cpus: null
+    data_volume: null
+    hide_links: false
+    id: n1
+    image_definition: null
+    label: PC-A
+    node_definition: alpine
+    parameters: {}
+    priority: null
+    pyats:
+      username: null
+      password: null
+      enable_password: null
+    ram: null
+    tags: []
+    x: -280
+    y: -160
+    interfaces:
+      - id: i0
+        label: eth0
+        mac_address: null
+        type: physical
+        slot: 0
+  - boot_disk_size: null
+    configuration:
+      - name: node.cfg
+        content: |-
+          # this is a shell script which will be sourced at boot
+          hostname Server-IPv4
+          # configurable user account
+          USERNAME=cisco
+          PASSWORD=cisco
+    cpu_limit: null
+    cpus: null
+    data_volume: null
+    hide_links: false
+    id: n2
+    image_definition: null
+    label: Server-IPv4
+    node_definition: alpine
+    parameters: {}
+    priority: null
+    pyats:
+      username: null
+      password: null
+      enable_password: null
+    ram: null
+    tags: []
+    x: 200
+    y: -240
+    interfaces:
+      - id: i0
+        label: eth0
+        mac_address: null
+        type: physical
+        slot: 0
+  - boot_disk_size: null
+    configuration:
+      - name: default
+        content: System Bridge
+    cpu_limit: null
+    cpus: null
+    data_volume: null
+    hide_links: false
+    id: n3
+    image_definition: null
+    label: ext-conn-0
+    node_definition: external_connector
+    parameters: {}
+    priority: null
+    pyats:
+      username: null
+      password: null
+      enable_password: null
+    ram: null
+    tags: []
+    x: 200
+    y: -80
+    interfaces:
+      - id: i0
+        label: port
+        mac_address: null
+        type: physical
+        slot: 0
+links:
+  - id: l0
+    n1: n1
+    n2: n0
+    i1: i0
+    i2: i2
+    conditioning: {}
+    label: PC-A-eth0<->NAT64-Router-GigabitEthernet0/1
+  - id: l1
+    n1: n0
+    n2: n2
+    i1: i1
+    i2: i0
+    conditioning: {}
+    label: NAT64-Router-GigabitEthernet0/0<->Server-IPv4-eth0
+  - id: l2
+    n1: n0
+    n2: n3
+    i1: i3
+    i2: i0
+    conditioning: {}
+    label: NAT64-Router-GigabitEthernet0/2<->ext-conn-0-port
+lab:
+  description: ''
+  notes: ''
+  title: NAT64
+  node_staging:
+    enabled: false
+    start_remaining: true
+    abort_on_failure: false
+  version: 0.3.1
